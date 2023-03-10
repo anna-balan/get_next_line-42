@@ -11,34 +11,34 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*read_input(int fd, char *s)
+//to read input from fd and store it in static var s
+char	*read_from_fd(int fd, char *s)
 {
-	char	*buff;
-	int		read_bytes;
+	char	*buf;
+	int		bytes_count;
 
-	read_bytes = 1;
-	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buff)
+	bytes_count = 1;
+	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
 		return (NULL);
-	while (read_bytes != 0 && !ft_strchr(s, '\n'))
+	while (bytes_count != 0 && !ft_strchr(s, '\n'))
 	{
-		read_bytes = read(fd, buff, BUFFER_SIZE);
-		if (read_bytes == -1)
+		bytes_count = read(fd, buf, BUFFER_SIZE);
+		if (bytes_count == -1)
 		{
-			free(buff);
+			free(buf);
 			return (NULL);
 		}
-		buff[read_bytes] = '\0';
-		s = ft_strjoin(s, buff);
+		buf[bytes_count] = '\0';
+		s = ft_strjoin(s, buf);
 	}
-	free(buff);
+	free(buf);
 	return (s);
 }
-
-char	*get_line(char *s)
+//to extract the first line of text from s and return it
+char	*read_line(char *s)
 {
-	char	*res;
+	char	*line;
 	int		i;
 
 	i = 0;
@@ -46,27 +46,28 @@ char	*get_line(char *s)
 		return (NULL);
 	while (s[i] && s[i] != '\n')
 		i++;
-	res = malloc(sizeof(char) * (i + 2));
-	if (!res)
+	line = malloc(sizeof(char) * (i + 2));
+	if (!line)
 		return (NULL);
 	i = 0;
 	while (s[i] && s[i] != '\n')
 	{
-		res[i] = s[i];
+		line[i] = s[i];
 		i++;
 	}
 	if (s[i] == '\n')
 	{
-		res[i] = s[i];
+		line[i] = s[i];
 		i++;
 	}
-	res[i] = '\0';
-	return (res);
+	line[i] = '\0';
+	return (line);
 }
 
+// to remove first line from s and store remaining in s
 char	*next_line(char *s)
 {
-	char	*res;
+	char	*line;
 	int		i;
 	int		j;
 
@@ -79,17 +80,17 @@ char	*next_line(char *s)
 		free(s);
 		return (NULL);
 	}
-	res = malloc(sizeof(char) * (ft_strlen(s) + 1 - i));
-	if (!res)
+	line = malloc(sizeof(char) * (ft_strlen(s) + 1 - i));
+	if (!line)
 		return (NULL);
 	i++;
 	while (s[i])
-		res[j++] = s[i++];
-	res[j] = '\0';
+		line[j++] = s[i++];
+	line[j] = '\0';
 	free(s);
-	return (res);
+	return (line);
 }
-
+// reads input from the fd, and returns the next line of text until  \n is found
 char	*get_next_line(int fd)
 {
 	static char	*s;
@@ -97,10 +98,10 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	s = read_input(fd, s);
+	s = read_from_fd(fd, s);
 	if (!s)
 		return (NULL);
-	line = get_line(s);
+	line = read_line(s);
 	s = next_line(s);
 	return (line);
 }
@@ -108,7 +109,7 @@ char	*get_next_line(int fd)
 #include <stdio.h>
 #include <fcntl.h>
 
-int	main(void)
+/*int	main(void)
 {
 	char	*line;
 	int		fd;
@@ -150,3 +151,4 @@ int	main(void)
 	// close(fd3);
 	return (0);
 }
+*/
