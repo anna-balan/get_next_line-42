@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbalan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/06 09:59:09 by hbalan            #+#    #+#             */
-/*   Updated: 2023/03/10 19:25:52 by hbalan           ###   ########.fr       */
+/*   Created: 2023/03/10 19:05:25 by hbalan            #+#    #+#             */
+/*   Updated: 2023/03/10 19:25:58 by hbalan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
+
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *str)
 {

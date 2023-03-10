@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbalan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/06 09:58:50 by hbalan            #+#    #+#             */
-/*   Updated: 2023/03/10 19:43:03 by hbalan           ###   ########.fr       */
+/*   Created: 2023/03/10 19:05:08 by hbalan            #+#    #+#             */
+/*   Updated: 2023/03/10 19:44:00 by hbalan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-//to read input from fd and store it in static var s
+#include "get_next_line_bonus.h"
+
 char	*read_from_fd(int fd, char *s)
 {
 	char	*buf;
@@ -92,51 +92,45 @@ char	*next_line(char *s)
 	return (line);
 }
 
-// reads input from the fd, and returns the next line of text until  \n is found
 char	*get_next_line(int fd)
 {
-	static char	*s;
+	static char	*s[1024];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	s = read_from_fd(fd, s);
-	if (!s)
+	s[fd] = read_from_fd(fd, s[fd]);
+	if (!s[fd])
 		return (NULL);
-	line = read_line(s);
-	s = next_line(s);
+	line = read_line(s[fd]);
+	s[fd] = next_line(s[fd]);
 	return (line);
 }
 
 /*#include <stdio.h>
 #include <fcntl.h>
-
-int	main(void)
+int main(void)
 {
-	char	*line;
-	int		fd;
-	// int		fd2;
-	// int		fd3;
-	int		i;
-    
-	fd = open("test3.txt", O_RDONLY);
-	//bonus
-	//fd2 = open("test2.txt", O_RDONLY);
-	//fd3 = open("test3.txt", O_RDONLY);
-    
-	i = 0;
-	
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		
-		printf("line %d: %s", i, line);
-		free(line);
-		i++;
-	}
+    int fd1, fd2;
+    char *line;
 
-	close(fd);
-	// close(fd2);
-	// close(fd3);
-	return (0);
+    fd1 = open("test1.txt", O_RDONLY);
+    fd2 = open("test2.txt", O_RDONLY);
+    
+    while ((line = get_next_line(fd1)) != NULL) {
+        printf("file1.txt: %s\n", line);
+        free(line);
+    }
+
+    while ((line = get_next_line(fd2)) != NULL) {
+        printf("file2.txt: %s\n", line);
+        free(line);
+    }
+
+    close(fd1);
+    close(fd2);
+
+    return 0;
 }
+
 */
